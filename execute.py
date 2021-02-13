@@ -30,18 +30,7 @@ def execute_command(command, timeout):
 
 
 if len(args):
-    dir_problem = args[0]
-    path = ""
-
-    if os.path.exists(dir_problem) and os.path.isdir(dir_problem):
-        path = os.path.join(os.getcwd(), dir_problem)
-    elif os.path.exists(os.path.join(os.getcwd(), dir_problem)) and os.path.isdir(
-            os.path.join(os.getcwd(), dir_problem)):
-        path = os.path.join(os.getcwd(), dir_problem)
-    else:
-        print("Problem's directory is invalid")
-        sys.exit(0)
-
+    path = os.path.abspath(args[0])
     testcases_dir = os.path.join(path, "testcases")
 
     if os.path.exists(testcases_dir) and os.path.exists(os.path.join(path, "main.cpp")):
