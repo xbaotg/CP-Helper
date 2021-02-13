@@ -7,36 +7,15 @@ import colorama
 args = sys.argv[1:]
 
 
-def diff(source, destination):
-    source_file = open(source, "r+")
-    destination_file = open(destination, "r+")
-
-    lines_source = source_file.readlines()
-    lines_destination = destination_file.readlines()
-
-    if len(lines_source) != len(lines_destination):
-        return False
-
-    return all(lines_source[idx] == lines_destination[idx] for idx in range(len(lines_source)))
-
-
-#
-def execute_command(command, timeout):
-    try:
-        output_console = subprocess.check_output(list(command.strip().split(" ")), timeout=timeout, shell=False)
-        return output_console.decode('UTF-8').rstrip()
-    except subprocess.CalledProcessError as e:
-        return None
-
-
 if len(args):
     path = os.path.abspath(args[0])
     testcases_dir = os.path.join(path, "testcases")
 
     if os.path.exists(testcases_dir) and os.path.exists(os.path.join(path, "main.cpp")):
         command_execute = []
+        path_file_execute = os.path.dirname(os.path.abspath(__file__))
 
-        with open("execute_command.txt", "r") as f:
+        with open(os.path.join(path_file_execute, "execute_command.txt"), "r") as f:
             command_execute = f.readlines()
             f.close()
 
