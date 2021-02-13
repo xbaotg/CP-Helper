@@ -2,14 +2,13 @@ import requests
 import sys
 import os
 from shutil import copyfile
-from pathlib import Path
 from bs4 import BeautifulSoup
 
 INVALID_LINK = "Your link is invalid"
 
 
 def read_url_from_input():
-    return input("CodeForces Link: ")
+    return input("Link: ")
 
 
 def throw_error(msg):
