@@ -118,8 +118,8 @@ def process():
 
         # create file from templates
         path_file_parser = os.path.dirname(os.path.abspath(__file__))
-
         copyfile(os.path.join(path_file_parser, "template.cpp"), os.path.join(data_dir, "main.cpp"))
 
+        print("Created folder: " + os.path.dirname(data_dir))
 
 process()
