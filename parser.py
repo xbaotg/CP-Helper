@@ -48,9 +48,9 @@ def write_to_file(file, value):
 
 
 def process():
-    # url = read_url_from_input()
+    url = read_url_from_input()
     # url = "https://codeforces.com/problemset/problem/996/A"
-    url = "https://atcoder.jp/contests/abc191/tasks/abc191_b"
+    # url = "https://atcoder.jp/contests/abc191/tasks/abc191_b"
 
     response = requests.get(url)
 
@@ -61,6 +61,7 @@ def process():
     text = response.text
     soup = BeautifulSoup(text, features="lxml")
     name_dir = ""
+    root_dir = os.getcwd()
     data_input_output = []
     good_link = False
 
@@ -86,7 +87,13 @@ def process():
     # AtCoder
     elif "atcoder.jp/contests/" in url:
         try:
-            name_dir = url.split("/")[-1]
+            contest_name = url.split("/")[-3]
+            name_dir = url.split("/")[-1].replace(contest_name + "_", "")
+
+            root_dir = os.path.join(os.getcwd(), contest_name)
+
+            if not os.path.exists(root_dir):
+                os.mkdir(root_dir)
 
             for idx, part in enumerate(soup.select('span[class="lang-en"] > div[class="part"] > section > pre')):
                 value = part.get_text().strip()
@@ -101,7 +108,7 @@ def process():
             throw_error(INVALID_LINK)
 
     if good_link:
-        data_dir, testcases_dir = generate_data_dir(os.getcwd(), name_dir)
+        data_dir, testcases_dir = generate_data_dir(root_dir, name_dir)
 
         for idx, x in enumerate(data_input_output, start=1):
             input_value, output_value = x[0], x[1]
