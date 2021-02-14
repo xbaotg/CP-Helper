@@ -24,7 +24,7 @@ if len(args):
 
         # compile
         try:
-            subprocess.check_call(command_execute[0]
+            subprocess.check_call(command_execute[0].strip()
                                   .replace("%main-file%", os.path.join(path, "main.cpp"))
                                   .replace("%execute-file%", os.path.join(path, "main.out")).strip().split(" "))
         except subprocess.CalledProcessError:
@@ -40,15 +40,13 @@ if len(args):
                 expect_output = []
 
                 with open(os.path.join(testcases_dir, f'sample-input-{i}')) as f:
-                    for x in f.readlines():
-                        inputs.append(x.strip())
+                    inputs = [x.strip() for x in f.readlines()]
 
                 with open(os.path.join(testcases_dir, f'sample-output-{i}')) as f:
-                    for x in f.readlines():
-                        expect_output.append(x.strip())
+                    expect_output = [x.strip() for x in f.readlines()]
 
                 try:
-                    p = subprocess.run(command_execute[1]
+                    p = subprocess.run(command_execute[1].strip()
                                        .replace("%execute-file%", path_execute_file), timeout=5,
                                        universal_newlines=True, input="\n".join(inputs), capture_output=True)
 
